@@ -1,0 +1,280 @@
+/*
+ * Fundacion Kinal
+ * Centro educativo tecnico laboral Kinal
+ * Electronica
+ * Grado: Quinto
+ * Sección: A
+ * Curso: Taller de electronica digital y reparación de computadoras I
+ * Nombre: Francisco Barillas
+ * Carnet: 2019376
+ * Proyecto: Practica 1
+*/
+//Directivas de preprocesador
+#define Push_Rising 2
+#define Push_Falling 3
+#define LED_A  4
+#define LED_B  5
+#define LED_C  6
+#define LED_D  7
+#define LED_E  8 
+#define LED_F  9
+#define LED_G  10
+#define LED_A1 11
+#define LED_B1 12
+#define LED_C1 14
+#define LED_D1 15
+#define LED_E1 16
+#define LED_F1 17
+#define LED_G1 18
+//modifico funciones de arduino
+#define IN(pin); pinMode(pin, INPUT);
+#define OUT(pin); pinMode(pin, OUTPUT);
+#define L(pin); digitalWrite(pin, LOW);
+#define H(pin); digitalWrite(pin, HIGH);
+//Defino Funciones y Funciones de ISR
+void Salidas();
+void Funcion_Falling();
+void Funcion_Rising();
+void Display();
+//Variables
+volatile static unsigned char i=0;
+volatile static bool f_print = false;
+void setup() 
+{
+Salidas();
+}
+void loop() 
+{
+ if(f_print){
+  f_print = false;
+  Serial.println(i);
+}
+ Display();
+}
+void Salidas()
+{
+ Serial.begin(19200);
+ IN(Push_Rising);
+ IN(Push_Falling);
+ attachInterrupt(digitalPinToInterrupt(Push_Rising),Funcion_Rising,RISING);
+ attachInterrupt(digitalPinToInterrupt(Push_Falling),Funcion_Falling,FALLING);
+ OUT(4);OUT(5);OUT(6);OUT(7);OUT(8);OUT(9);OUT(10);      // DECENAS
+ OUT(11);OUT(12);OUT(14);OUT(15)OUT(16);OUT(17);OUT(18); // UNIDADES
+}
+void Funcion_Rising(){
+ f_print = true;
+ i++;
+ if (i>50){ 
+ i=0;}}
+void Funcion_Falling(){
+ f_print = true;
+ i--;
+ if(i>=255){ 
+ i=50;
+}}
+void Display(){
+if(i==0){
+H(LED_A); H(LED_B); H(LED_C); H(LED_D); H(LED_E); H(LED_F); L(LED_G);  //DISPLAY 2, DECENAS
+H(LED_A1);H(LED_B1);H(LED_C1);H(LED_D1);H(LED_E1);H(LED_F1);L(LED_G1); //DISPLAY 1, UNIDADES
+}
+if(i==1){
+H(LED_A); H(LED_B); H(LED_C); H(LED_D); H(LED_E); H(LED_F); L(LED_G);  //DISPLAY 2 DECENAS
+L(LED_A1);H(LED_B1);H(LED_C1);L(LED_D1);L(LED_E1);L(LED_F1);L(LED_G1); //DISPLAY 1, UNIDADES
+}
+if(i==2){
+H(LED_A); H(LED_B); H(LED_C); H(LED_D); H(LED_E); H(LED_F); L(LED_G);  //DISPLAY 2 DECENAS
+H(LED_A1);H(LED_B1);L(LED_C1);H(LED_D1);H(LED_E1);L(LED_F1);H(LED_G1); //DISPLAY 1, UNIDADES
+}
+if(i==3){
+H(LED_A); H(LED_B); H(LED_C); H(LED_D); H(LED_E); H(LED_F); L(LED_G);  //DISPLAY 2 DECENAS
+H(LED_A1);H(LED_B1);H(LED_C1);H(LED_D1);L(LED_E1);L(LED_F1);H(LED_G1); //DISPLAY 1, UNIDADES
+}
+if(i==4){
+H(LED_A); H(LED_B); H(LED_C); H(LED_D); H(LED_E); H(LED_F); L(LED_G);  //DISPLAY 2 DECENAS
+L(LED_A1);H(LED_B1);H(LED_C1);L(LED_D1);L(LED_E1);H(LED_F1);H(LED_G1); //DISPLAY 1, UNIDADES
+}
+if(i==5){
+H(LED_A); H(LED_B); H(LED_C); H(LED_D); H(LED_E); H(LED_F); L(LED_G);  //DISPLAY 2 DECENAS
+H(LED_A1);L(LED_B1);H(LED_C1);H(LED_D1);L(LED_E1);H(LED_F1);H(LED_G1); //DISPLAY 1, UNIDADES
+}
+if(i==6){
+H(LED_A); H(LED_B); H(LED_C); H(LED_D); H(LED_E); H(LED_F); L(LED_G);  //DISPLAY 2 DECENAS
+H(LED_A1);L(LED_B1);H(LED_C1);H(LED_D1);H(LED_E1);H(LED_F1);H(LED_G1); //DISPLAY 1, UNIDADES
+}
+if(i==7){
+H(LED_A); H(LED_B); H(LED_C); H(LED_D); H(LED_E); H(LED_F); L(LED_G);  //DISPLAY 2 DECENAS
+H(LED_A1);H(LED_B1);H(LED_C1);L(LED_D1);L(LED_E1);L(LED_F1);L(LED_G1); //DISPLAY 1, UNIDADES
+}
+if(i==8){
+H(LED_A); H(LED_B); H(LED_C); H(LED_D); H(LED_E); H(LED_F); L(LED_G);  //DISPLAY 2 DECENAS
+H(LED_A1);H(LED_B1);H(LED_C1);H(LED_D1);H(LED_E1);H(LED_F1);H(LED_G1); //DISPLAY 1, UNIDADES
+}
+if(i==9){
+H(LED_A); H(LED_B); H(LED_C); H(LED_D); H(LED_E); H(LED_F); L(LED_G);  //DISPLAY 2 DECENAS
+H(LED_A1);H(LED_B1);H(LED_C1);L(LED_D1);L(LED_E1);H(LED_F1);H(LED_G1); //DISPLAY 1, UNIDADES
+}
+if(i==10){
+L(LED_A); H(LED_B); H(LED_C); L(LED_D); L(LED_E); L(LED_F); L(LED_G);  //DISPLAY 2 DECENAS
+H(LED_A1);H(LED_B1);H(LED_C1);H(LED_D1);H(LED_E1);H(LED_F1);L(LED_G1); //DISPLAY 1, UNIDADES
+}
+if(i==11){
+L(LED_A); H(LED_B); H(LED_C); L(LED_D); L(LED_E); L(LED_F); L(LED_G);  //DISPLAY 2 DECENAS
+L(LED_A1);H(LED_B1);H(LED_C1);L(LED_D1);L(LED_E1);L(LED_F1);L(LED_G1); //DISPLAY 1, UNIDADES
+}
+if(i==12){
+L(LED_A); H(LED_B); H(LED_C); L(LED_D); L(LED_E); L(LED_F); L(LED_G);  //DISPLAY 2 DECENAS
+H(LED_A1);H(LED_B1);L(LED_C1);H(LED_D1);H(LED_E1);L(LED_F1);H(LED_G1); //DISPLAY 1, UNIDADES
+}
+if(i==13){
+L(LED_A); H(LED_B); H(LED_C); L(LED_D); L(LED_E); L(LED_F); L(LED_G);  //DISPLAY 2 DECENAS
+H(LED_A1);H(LED_B1);H(LED_C1);H(LED_D1);L(LED_E1);L(LED_F1);H(LED_G1); //DISPLAY 1, UNIDADES
+}
+if(i==14){
+L(LED_A); H(LED_B); H(LED_C); L(LED_D); L(LED_E); L(LED_F); L(LED_G);  //DISPLAY 2 DECENAS
+L(LED_A1);H(LED_B1);H(LED_C1);L(LED_D1);L(LED_E1);H(LED_F1);H(LED_G1); //DISPLAY 1, UNIDADES
+}
+if(i==15){
+L(LED_A); H(LED_B); H(LED_C); L(LED_D); L(LED_E); L(LED_F); L(LED_G);  //DISPLAY 2 DECENAS
+H(LED_A1);L(LED_B1);H(LED_C1);H(LED_D1);L(LED_E1);H(LED_F1);H(LED_G1); //DISPLAY 1, UNIDADES
+}
+if(i==16){
+L(LED_A); H(LED_B); H(LED_C); L(LED_D); L(LED_E); L(LED_F); L(LED_G);  //DISPLAY 2 DECENAS
+H(LED_A1);L(LED_B1);H(LED_C1);H(LED_D1);H(LED_E1);H(LED_F1);H(LED_G1); //DISPLAY 1, UNIDADES
+}
+if(i==17){
+L(LED_A); H(LED_B); H(LED_C); L(LED_D); L(LED_E); L(LED_F); L(LED_G);  //DISPLAY 2 DECENAS
+H(LED_A1);H(LED_B1);H(LED_C1);L(LED_D1);L(LED_E1);L(LED_F1);L(LED_G1); //DISPLAY 1, UNIDADES
+}
+if(i==18){
+L(LED_A); H(LED_B); H(LED_C); L(LED_D); L(LED_E); L(LED_F); L(LED_G);  //DISPLAY 2 DECENAS
+H(LED_A1);H(LED_B1);H(LED_C1);H(LED_D1);H(LED_E1);H(LED_F1);H(LED_G1); //DISPLAY 1, UNIDADES
+}
+if(i==19){
+L(LED_A); H(LED_B); H(LED_C); L(LED_D); L(LED_E); L(LED_F); L(LED_G);  //DISPLAY 2 DECENAS
+H(LED_A1);H(LED_B1);H(LED_C1);L(LED_D1);L(LED_E1);H(LED_F1);H(LED_G1); //DISPLAY 1, UNIDADES
+}
+if(i==20){
+H(LED_A); H(LED_B); L(LED_C); H(LED_D); H(LED_E); L(LED_F); H(LED_G);  //DISPLAY 2 DECENAS
+H(LED_A1);H(LED_B1);H(LED_C1);H(LED_D1);H(LED_E1);H(LED_F1);L(LED_G1); //DISPLAY 1, UNIDADES
+}
+if(i==21){
+H(LED_A); H(LED_B); L(LED_C); H(LED_D); H(LED_E); L(LED_F); H(LED_G);  //DISPLAY 2 DECENAS
+L(LED_A1);H(LED_B1);H(LED_C1);L(LED_D1);L(LED_E1);L(LED_F1);L(LED_G1); //DISPLAY 1, UNIDADES
+}
+if(i==22){
+H(LED_A); H(LED_B); L(LED_C); H(LED_D); H(LED_E); L(LED_F); H(LED_G);  //DISPLAY 2 DECENAS
+H(LED_A1);H(LED_B1);L(LED_C1);H(LED_D1);H(LED_E1);L(LED_F1);H(LED_G1); //DISPLAY 1, UNIDADES
+}
+if(i==23){
+H(LED_A); H(LED_B); L(LED_C); H(LED_D); H(LED_E); L(LED_F); H(LED_G);  //DISPLAY 2 DECENAS
+H(LED_A1);H(LED_B1);H(LED_C1);H(LED_D1);L(LED_E1);L(LED_F1);H(LED_G1); //DISPLAY 1, UNIDADES
+}
+if(i==24){
+H(LED_A); H(LED_B); L(LED_C); H(LED_D); H(LED_E); L(LED_F); H(LED_G);  //DISPLAY 2 DECENAS
+L(LED_A1);H(LED_B1);H(LED_C1);L(LED_D1);L(LED_E1);H(LED_F1);H(LED_G1); //DISPLAY 1, UNIDADES
+}
+if(i==25){
+H(LED_A); H(LED_B); L(LED_C); H(LED_D); H(LED_E); L(LED_F); H(LED_G);  //DISPLAY 2 DECENAS
+H(LED_A1);L(LED_B1);H(LED_C1);H(LED_D1);L(LED_E1);H(LED_F1);H(LED_G1); //DISPLAY 1, UNIDADES
+}
+if(i==26){
+H(LED_A); H(LED_B); L(LED_C); H(LED_D); H(LED_E); L(LED_F); H(LED_G);  //DISPLAY 2 DECENAS
+H(LED_A1);L(LED_B1);H(LED_C1);H(LED_D1);H(LED_E1);H(LED_F1);H(LED_G1); //DISPLAY 1, UNIDADES
+}
+if(i==27){
+H(LED_A); H(LED_B); L(LED_C); H(LED_D); H(LED_E); L(LED_F); H(LED_G);  //DISPLAY 2 DECENAS
+H(LED_A1);H(LED_B1);H(LED_C1);L(LED_D1);L(LED_E1);L(LED_F1);L(LED_G1); //DISPLAY 1, UNIDADES
+}
+if(i==28){
+H(LED_A); H(LED_B); L(LED_C); H(LED_D); H(LED_E); L(LED_F); H(LED_G);  //DISPLAY 2 DECENAS
+H(LED_A1);H(LED_B1);H(LED_C1);H(LED_D1);H(LED_E1);H(LED_F1);H(LED_G1); //DISPLAY 1, UNIDADES
+}
+if(i==29){
+H(LED_A); H(LED_B); L(LED_C); H(LED_D); H(LED_E); L(LED_F); H(LED_G);  //DISPLAY 2 DECENAS
+H(LED_A1);H(LED_B1);H(LED_C1);L(LED_D1);L(LED_E1);H(LED_F1);H(LED_G1); //DISPLAY 1, UNIDADES
+}
+if(i==30){
+H(LED_A); H(LED_B); H(LED_C); H(LED_D); L(LED_E); H(LED_F); H(LED_G);  //DISPLAY 2 DECENAS
+H(LED_A1);H(LED_B1);H(LED_C1);H(LED_D1);H(LED_E1);H(LED_F1);L(LED_G1); //DISPLAY 1, UNIDADES
+}
+if(i==31){
+H(LED_A); H(LED_B); H(LED_C); H(LED_D); L(LED_E); H(LED_F); H(LED_G);  //DISPLAY 2 DECENAS
+L(LED_A1);H(LED_B1);H(LED_C1);L(LED_D1);L(LED_E1);L(LED_F1);L(LED_G1); //DISPLAY 1, UNIDADES
+}
+if(i==32){
+H(LED_A); H(LED_B); H(LED_C); H(LED_D); L(LED_E); H(LED_F); H(LED_G);  //DISPLAY 2 DECENAS
+H(LED_A1);H(LED_B1);L(LED_C1);H(LED_D1);H(LED_E1);L(LED_F1);H(LED_G1); //DISPLAY 1, UNIDADES
+}
+if(i==33){
+H(LED_A); H(LED_B); H(LED_C); H(LED_D); L(LED_E); H(LED_F); H(LED_G);  //DISPLAY 2 DECENAS
+H(LED_A1);H(LED_B1);H(LED_C1);H(LED_D1);L(LED_E1);L(LED_F1);H(LED_G1); //DISPLAY 1, UNIDADES
+}
+if(i==34){
+H(LED_A); H(LED_B); H(LED_C); H(LED_D); L(LED_E); H(LED_F); H(LED_G);  //DISPLAY 2 DECENAS
+L(LED_A1);H(LED_B1);H(LED_C1);L(LED_D1);L(LED_E1);H(LED_F1);H(LED_G1); //DISPLAY 1, UNIDADES
+}
+if(i==35){
+H(LED_A); H(LED_B); H(LED_C); H(LED_D); L(LED_E); H(LED_F); H(LED_G);  //DISPLAY 2 DECENAS
+H(LED_A1);L(LED_B1);H(LED_C1);H(LED_D1);L(LED_E1);H(LED_F1);H(LED_G1); //DISPLAY 1, UNIDADES
+}
+if(i==36){
+H(LED_A); H(LED_B); H(LED_C); H(LED_D); L(LED_E); H(LED_F); H(LED_G);  //DISPLAY 2 DECENAS
+H(LED_A1);L(LED_B1);H(LED_C1);H(LED_D1);H(LED_E1);H(LED_F1);H(LED_G1); //DISPLAY 1, UNIDADES
+}
+if(i==37){
+H(LED_A); H(LED_B); H(LED_C); H(LED_D); L(LED_E); H(LED_F); H(LED_G);  //DISPLAY 2 DECENAS
+H(LED_A1);H(LED_B1);H(LED_C1);L(LED_D1);L(LED_E1);L(LED_F1);L(LED_G1); //DISPLAY 1, UNIDADES
+}
+if(i==38){
+H(LED_A); H(LED_B); H(LED_C); H(LED_D); L(LED_E); H(LED_F); H(LED_G);  //DISPLAY 2 DECENAS
+H(LED_A1);H(LED_B1);H(LED_C1);H(LED_D1);H(LED_E1);H(LED_F1);H(LED_G1); //DISPLAY 1, UNIDADES
+}
+if(i==39){
+H(LED_A); H(LED_B); H(LED_C); H(LED_D); L(LED_E); H(LED_F); H(LED_G);  //DISPLAY 2 DECENAS
+H(LED_A1);H(LED_B1);H(LED_C1);L(LED_D1);L(LED_E1);H(LED_F1);H(LED_G1) //DISPLAY 1, UNIDADES
+}
+if(i==40){
+L(LED_A); H(LED_B); H(LED_C); L(LED_D); L(LED_E); H(LED_F); H(LED_G);  //DISPLAY 2 DECENAS
+H(LED_A1);H(LED_B1);H(LED_C1);H(LED_D1);H(LED_E1);H(LED_F1);L(LED_G1); //DISPLAY 1, UNIDADES
+}
+if(i==41){
+L(LED_A); H(LED_B); H(LED_C); L(LED_D); L(LED_E); H(LED_F); H(LED_G);  //DISPLAY 2 DECENAS
+L(LED_A1);H(LED_B1);H(LED_C1);L(LED_D1);L(LED_E1);L(LED_F1);L(LED_G1); //DISPLAY 1, UNIDADES
+}
+if(i==42){
+L(LED_A); H(LED_B); H(LED_C); L(LED_D); L(LED_E); H(LED_F); H(LED_G);  //DISPLAY 2 DECENAS
+H(LED_A1);H(LED_B1);L(LED_C1);H(LED_D1);H(LED_E1);L(LED_F1);H(LED_G1); //DISPLAY 1, UNIDADES
+}
+if(i==43){
+L(LED_A); H(LED_B); H(LED_C); L(LED_D); L(LED_E); H(LED_F); H(LED_G);  //DISPLAY 2 DECENAS
+H(LED_A1);H(LED_B1);H(LED_C1);H(LED_D1);L(LED_E1);L(LED_F1);H(LED_G1); //DISPLAY 1, UNIDADES
+}
+if(i==44){
+L(LED_A); H(LED_B); H(LED_C); L(LED_D); L(LED_E); H(LED_F); H(LED_G);  //DISPLAY 2 DECENAS
+L(LED_A1);H(LED_B1);H(LED_C1);L(LED_D1);L(LED_E1);H(LED_F1);H(LED_G1); //DISPLAY 1, UNIDADES
+}
+if(i==45){
+L(LED_A); H(LED_B); H(LED_C); L(LED_D); L(LED_E); H(LED_F); H(LED_G);  //DISPLAY 2 DECENAS
+H(LED_A1);L(LED_B1);H(LED_C1);H(LED_D1);L(LED_E1);H(LED_F1);H(LED_G1); //DISPLAY 1, UNIDADES
+}
+if(i==46){
+L(LED_A); H(LED_B); H(LED_C); L(LED_D); L(LED_E); H(LED_F); H(LED_G);  //DISPLAY 2 DECENAS
+H(LED_A1);L(LED_B1);H(LED_C1);H(LED_D1);H(LED_E1);H(LED_F1);H(LED_G1); //DISPLAY 1, UNIDADES
+}
+if(i==47){
+L(LED_A); H(LED_B); H(LED_C); L(LED_D); L(LED_E); H(LED_F); H(LED_G);  //DISPLAY 2 DECENAS
+H(LED_A1);H(LED_B1);H(LED_C1);L(LED_D1);L(LED_E1);L(LED_F1);L(LED_G1); //DISPLAY 1, UNIDADES
+}
+if(i==48){
+L(LED_A); H(LED_B); H(LED_C); L(LED_D); L(LED_E); H(LED_F); H(LED_G);  //DISPLAY 2 DECENAS
+H(LED_A1);H(LED_B1);H(LED_C1);H(LED_D1);H(LED_E1);H(LED_F1);H(LED_G1); //DISPLAY 1, UNIDADES
+}
+if(i==49){
+L(LED_A); H(LED_B); H(LED_C); L(LED_D); L(LED_E); H(LED_F); H(LED_G);  //DISPLAY 2 DECENAS
+H(LED_A1);H(LED_B1);H(LED_C1);L(LED_D1);L(LED_E1);H(LED_F1);H(LED_G1); //DISPLAY 1, UNIDADES
+}
+if(i==50){
+H(LED_A); L(LED_B); H(LED_C); H(LED_D); L(LED_E); H(LED_F); H(LED_G);  //DISPLAY 2 DECENAS
+H(LED_A1);H(LED_B1);H(LED_C1);H(LED_D1);H(LED_E1);H(LED_F1);L(LED_G1); //DISPLAY 1, UNIDADES
+}
+}
