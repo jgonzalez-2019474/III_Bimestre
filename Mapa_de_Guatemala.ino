@@ -7,6 +7,8 @@
  * Curso: Taller de electronica digital y reparación de computadoras I
  * Nombre: Francisco Barillas
  * Carnet: 2019376
+ Nombre: Byron Dávila 
+ Carnet: 2019618
 */
 
 //Librerias
